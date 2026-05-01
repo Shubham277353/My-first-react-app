@@ -1,37 +1,38 @@
-function Item({ name, isPacked }) {
-  let itemContent = name ;
+import { people } from "./data.js";
+import { getImageUrl } from "./utils.js";
 
-  if(isPacked){
-    itemContent = (
-        <del>
-            {name + " ✓"}
-        </del>
-    );
-  }
+export default function List() {
+  let chemists = people.filter((person) => person.profession === "chemist");
+  let everyoneElse = people.filter(
+    (person) => person.profession !== "chemist",
+  );
 
+  chemists = chemists.map((person) => (
+    <li key={person.id}>
+      <img src={getImageUrl(person)} alt={person.name} />
+      <p>
+        <b>{person.name}:</b>
+        {" " + person.profession + " "}
+        known for {person.accomplishment}
+      </p>
+    </li>
+  ));
+  everyoneElse = everyoneElse.map((person) => (
+    <li key={person.id}>
+      <img src={getImageUrl(person)} alt={person.name} />
+      <p>
+        <b>{person.name}:</b>
+        {" " + person.profession + " "}
+        known for {person.accomplishment}
+      </p>
+    </li>
+  ));
   return (
-    <li className = "item">{itemContent}</li>
-  )
-}
-
-export default function PackingList() {
-  return (
-    <section>
-      <h1>Sally Ride's Packing List</h1>
-      <ul>
-        <Item
-          isPacked={true}
-          name="Space suit"
-        />
-        <Item
-          isPacked={true}
-          name="Helmet with a golden leaf"
-        />
-        <Item
-          isPacked={false}
-          name="Photo of Tam"
-        />
-      </ul>
-    </section>
+    <article>
+      <h1>Chemists</h1>
+      <ul>{chemists}</ul>
+      <h1>Everyone Else</h1>
+      <ul>{everyoneElse}</ul>
+    </article>
   );
 }
