@@ -1,38 +1,21 @@
-import { people } from "./data.js";
-import { getImageUrl } from "./utils.js";
+import { recipes } from './data.js';
 
-export default function List() {
-  let chemists = people.filter((person) => person.profession === "chemist");
-  let everyoneElse = people.filter(
-    (person) => person.profession !== "chemist",
-  );
-
-  chemists = chemists.map((person) => (
-    <li key={person.id}>
-      <img src={getImageUrl(person)} alt={person.name} />
-      <p>
-        <b>{person.name}:</b>
-        {" " + person.profession + " "}
-        known for {person.accomplishment}
-      </p>
-    </li>
-  ));
-  everyoneElse = everyoneElse.map((person) => (
-    <li key={person.id}>
-      <img src={getImageUrl(person)} alt={person.name} />
-      <p>
-        <b>{person.name}:</b>
-        {" " + person.profession + " "}
-        known for {person.accomplishment}
-      </p>
-    </li>
-  ));
+export default function RecipeList() {
   return (
-    <article>
-      <h1>Chemists</h1>
-      <ul>{chemists}</ul>
-      <h1>Everyone Else</h1>
-      <ul>{everyoneElse}</ul>
-    </article>
+    <div>
+      <h1>Recipes</h1>
+      {recipes.map(recipe =>
+        <div key={recipe.id}>
+          <h2>{recipe.name}</h2>
+          <ul>
+            {recipe.ingredients.map(ingredient =>
+              <li key={ingredient}>
+                {ingredient}
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }
