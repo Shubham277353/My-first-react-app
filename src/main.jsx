@@ -4,9 +4,10 @@ import './index.css'
 import Prop from './practice.jsx'
 import App from './App.jsx'
 import RecipeList from './rendering.jsx'
+import Counter from './useState.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RecipeList />
+    <Counter />
   </StrictMode>
 )
