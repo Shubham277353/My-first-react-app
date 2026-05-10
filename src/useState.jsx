@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-export default function Counter() {
-  const [counter, setCounter] = useState(0);
+export default function FeedbackForm() {
+  const [isSent, setIsSent] = useState(false);
+  const [message, setMessage] = useState('');
+  
+  if (isSent) {
 
-  return (
-    <div className="counter">
-      <h2>{counter}</h2>
-      <button onClick={() => setCounter(counter - 1)}>-</button>
-      <button onClick={() => setCounter(0)}>Reset</button>
-      <button onClick={() => setCounter(counter + 1)}>+</button>
-    </div>
-  );
+    console.log(isSent);
+    console.log("hii");
+    return <h1>Thank you!</h1>;
+  } else {
+    // eslint-disable-next-line
+    return (
+      <form onSubmit={e => {
+        e.preventDefault();
+        alert(`Sending: "${message}"`);
+        setIsSent(true);
+      }}>
+        <textarea
+          placeholder="Message"
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+        />
+        <br />
+        <button type="submit">Send</button>
+      </form>
+    );
+  }
 }
