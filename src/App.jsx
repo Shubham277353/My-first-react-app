@@ -1,34 +1,63 @@
-function Card({ about, children }) {
-  return (
-    <div>
-      <div className="card">{children}</div>
-      <div className="card">
-        <div className="card-content">
-          <h1>About</h1>
-          <p>{about}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { useState } from 'react';
+import AddItem from './AddItem.js';
+import PackingList from './PackingList.js';
 
-export default function Profile() {
+let nextId = 3;
+const initialItems = [
+  { id: 0, title: 'Warm socks', packed: true },
+  { id: 1, title: 'Travel journal', packed: false },
+  { id: 2, title: 'Watercolors', packed: false },
+];
+
+export default function TravelPlan() {
+  const [items, setItems] = useState(initialItems);
+  const [packed, setPacked] = useState(1);
+
+  function handleAddItem(title) {
+    setItems([
+      ...items,
+      {
+        id: nextId++,
+        title: title,
+        packed: false
+      }
+    ]);
+  }
+
+  function handleChangeItem(nextItem) {
+    if (nextItem.packed) {
+      setPacked(packed + 1);
+    } else {
+      setPacked(packed - 1);
+    }
+    setItems(items.map(item => {
+      if (item.id === nextItem.id) {
+        return nextItem;
+      } else {
+        return item;
+      }
+    }));
+  }
+
+  function handleDeleteItem(itemId) {
+    setItems(
+      items.filter(item => item.id !== itemId)
+    );
+    setPacked(packed - 1);
+  }
+
   return (
-    <div>
-      <Card about="Aklilu Lemma was a distinguished Ethiopian scientist who discovered a natural treatment to schistosomiasis.">
-        <div className="card">
-          <div className="card-content">
-            <h1>Photo</h1>
-            <img
-              className="avatar"
-              src="https://react.dev/images/docs/scientists/OKS67lhm.jpg"
-              alt="Aklilu Lemma"
-              width={70}
-              height={70}
-            />
-          </div>
-        </div>
-      </Card>
-    </div>
+    <>
+      <AddItem
+        onAddItem={handleAddItem}
+      />
+      <PackingList
+        items={items}
+        onChangeItem={handleChangeItem}
+        onDeleteItem={handleDeleteItem}
+      />
+      <hr />
+      <b>{packed} out of {items.length} packed!</b>
+    </>
   );
 }
